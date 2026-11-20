@@ -1,0 +1,27 @@
+name: pod-control-plane
+
+services:
+
+  vllm:
+    image: vllm/vllm-openai-cpu:latest-x86_64
+
+    ports:
+    - "127.0.0.1::8000"
+
+    shm_size: 4g
+
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+
+    command:
+      - --model
+      - Qwen/Qwen2.5-0.5B-Instruct
+      - --dtype
+      - float32
+      - --kv-cache-memory-bytes
+      - "536870912"
+      - --max-model-len
+      - "512"
+      - --max-num-seqs
+      - "1"
+      - --enforce-eager
